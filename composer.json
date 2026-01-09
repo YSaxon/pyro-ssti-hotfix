@@ -1,7 +1,7 @@
 {
-    "name": "ysaxon/pyro-ssti-hotfix",
-    "description": "Security hotfix for PyroCMS SSTI vulnerability (CVE-2023-29689). Applies Twig sandbox to user-editable templates.",
-    "keywords": ["pyrocms", "security", "ssti", "twig", "sandbox", "hotfix"],
+    "name": "ysaxon/pyrocms-ssti-fix",
+    "description": "Security fix for PyroCMS SSTI vulnerability (CVE-2023-29689). Applies Twig sandbox to user-editable templates.",
+    "keywords": ["pyrocms", "security", "ssti", "twig", "sandbox", "fix"],
     "license": "MIT",
     "authors": [
         {
@@ -16,13 +16,13 @@
     },
     "autoload": {
         "psr-4": {
-            "YSaxon\\PyroSstiHotfix\\": "src/"
+            "YSaxon\\PyroCmsSstiFix\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "YSaxon\\PyroSstiHotfix\\HotfixServiceProvider"
+                "YSaxon\\PyroCmsSstiFix\\FixServiceProvider"
             ]
         }
     },

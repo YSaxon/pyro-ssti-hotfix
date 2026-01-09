@@ -1,4 +1,4 @@
-# 🛡️ PyroCMS SSTI Hotfix
+# 🛡️ PyroCMS SSTI Fix
 
 **Drop-in security fix for CVE-2023-29689** - Server-Side Template Injection leading to Remote Code Execution in PyroCMS 3.9.
 
@@ -19,15 +19,15 @@ This package automatically sandboxes user-editable templates while leaving legit
 ## Installation
 
 ```bash
-composer config repositories.pyro-ssti-hotfix vcs https://github.com/ysaxon/pyro-ssti-hotfix.git
-composer require ysaxon/pyro-ssti-hotfix:dev-main
+composer config repositories.pyrocms-ssti-fix vcs https://github.com/ysaxon/pyrocms-ssti-fix.git
+composer require ysaxon/pyrocms-ssti-fix:dev-main
 ```
 
 Unfortunately, due to PyroCMS [disabling autodiscovery](https://github.com/pyrocms/pyrocms/commit/978bbb63c9b871df85bf6ba98756fbd621bff4ec) you will need to add the serviceProvider yourself.
 
 You can do that with
 ```bash
-sed -i "/App\\\Providers\\\AppServiceProvider::class,/a \        YSaxon\\\PyroSstiHotfix\\\HotfixServiceProvider::class," config/app.php
+sed -i "/App\\\Providers\\\AppServiceProvider::class,/a \        YSaxon\\\PyroCmsSstiFix\\\FixServiceProvider::class," config/app.php
 ```
 
 ## Requirements
@@ -65,21 +65,21 @@ sed -i "/App\\\Providers\\\AppServiceProvider::class,/a \        YSaxon\\\PyroSs
 Default settings are secure and work for most installations. To customize:
 
 ```bash
-php artisan vendor:publish --tag=pyro-ssti-hotfix-config
+php artisan vendor:publish --tag=pyrocms-ssti-fix-config
 ```
 
-This creates `config/pyro-ssti-hotfix.php`:
+This creates `config/pyrocms-ssti-fix.php`:
 
 ```php
 return [
     // Master switch
-    'enabled' => env('PYRO_SSTI_HOTFIX_ENABLED', true),
+    'enabled' => env('PYROCMS_SSTI_FIX_ENABLED', true),
 
     // 'auto' (recommended), 'global', or 'manual'
-    'mode' => env('PYRO_SSTI_HOTFIX_MODE', 'auto'),
+    'mode' => env('PYROCMS_SSTI_FIX_MODE', 'auto'),
 
     // Override auto-detected storage path
-    'storage_path' => env('PYRO_SSTI_HOTFIX_STORAGE_PATH', null),
+    'storage_path' => env('PYROCMS_SSTI_FIX_STORAGE_PATH', null),
 
     // Customize allowed tags/filters/functions/methods/properties
     'policy' => [
@@ -147,7 +147,7 @@ Safe operations remain available in sandboxed templates:
 If your admin templates legitimately need additional features:
 
 ```php
-// config/pyro-ssti-hotfix.php
+// config/pyrocms-ssti-fix.php
 'policy' => [
     'filters' => [
         SecurityPolicyDefaults::INCLUDE_DEFAULTS,
@@ -169,8 +169,8 @@ After installation, verify the exploit is blocked:
 3. Enter: `{{['id']|map('system')|join}}`
 4. Save and view
 
-**Before hotfix:** Shows output of `id` command (or crashes)
-**After hotfix:** Shows error or `[rendering failed: Filter "map" is not allowed.]`
+**Before fix:** Shows output of `id` command (or crashes)
+**After fix:** Shows error or `[rendering failed: Filter "map" is not allowed.]`
 
 ## Troubleshooting
 
@@ -182,7 +182,7 @@ The package couldn't find Twig. This usually means:
 
 Enable debug mode to see details:
 ```env
-PYRO_SSTI_HOTFIX_DEBUG=true
+PYROCMS_SSTI_FIX_DEBUG=true
 ```
 
 ### Legitimate templates breaking

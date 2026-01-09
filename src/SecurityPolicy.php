@@ -1,6 +1,6 @@
 <?php
 
-namespace YSaxon\PyroSstiHotfix;
+namespace YSaxon\PyroCmsSstiFix;
 
 use Twig\Sandbox\SecurityNotAllowedFilterError;
 use Twig\Sandbox\SecurityNotAllowedFunctionError;
@@ -11,12 +11,12 @@ use Twig\Sandbox\SecurityPolicyInterface;
 
 /**
  * Enhanced Twig security policy with wildcard support and sensible defaults.
- * 
+ *
  * Improvements over Twig's built-in SecurityPolicy:
  * - Supports INCLUDE_DEFAULTS token to merge custom allowlists with secure defaults
  * - Supports wildcards for methods/properties (e.g., 'get*' matches all getters)
  * - Caches method/property checks for better performance
- * 
+ *
  * @author Yaakov Saxon
  */
 final class SecurityPolicy implements SecurityPolicyInterface
@@ -48,7 +48,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 
     /**
      * Create a new SecurityPolicy instance.
-     * 
+     *
      * For all parameters, you may include SecurityPolicyDefaults::INCLUDE_DEFAULTS
      * to merge with the secure defaults.
      *

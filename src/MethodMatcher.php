@@ -1,6 +1,6 @@
 <?php
 
-namespace YSaxon\PyroSstiHotfix;
+namespace YSaxon\PyroCmsSstiFix;
 
 /**
  * Efficient matcher for method/property allowlists with wildcard support.

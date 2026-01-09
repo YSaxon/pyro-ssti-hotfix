@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Configuration for PyroCMS SSTI Hotfix (CVE-2023-29689)
- * 
+ * Configuration for PyroCMS SSTI Fix (CVE-2023-29689)
+ *
  * This package mitigates the Server-Side Template Injection vulnerability
  * in PyroCMS by applying Twig's sandbox to user-editable templates.
- * 
+ *
  * Default settings are secure and require no modification for most installations.
  */
 
@@ -13,14 +13,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Enable Hotfix
+    | Enable Fix
     |--------------------------------------------------------------------------
     |
-    | Master switch to enable/disable the hotfix. Set to false to completely
+    | Master switch to enable/disable the fix. Set to false to completely
     | disable sandbox injection (not recommended in production).
     |
     */
-    'enabled' => env('PYRO_SSTI_HOTFIX_ENABLED', true),
+    'enabled' => env('PYROCMS_SSTI_FIX_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@ return [
     |              using {% sandbox %} tag or include(sandbox=true).
     |
     */
-    'mode' => env('PYRO_SSTI_HOTFIX_MODE', 'auto'),
+    'mode' => env('PYROCMS_SSTI_FIX_MODE', 'auto'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ return [
     | Laravel's storage_path().
     |
     */
-    'storage_path' => env('PYRO_SSTI_HOTFIX_STORAGE_PATH', null),
+    'storage_path' => env('PYROCMS_SSTI_FIX_STORAGE_PATH', null),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,7 +68,7 @@ return [
     | for more complex logic.
     |
     */
-    'source_policy' => \YSaxon\PyroSstiHotfix\StorageSourcePolicy::class,
+    'source_policy' => \YSaxon\PyroCmsSstiFix\StorageSourcePolicy::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Defines what Twig features are allowed in sandboxed templates.
-    | 
+    |
     | Use the special value SecurityPolicyDefaults::INCLUDE_DEFAULTS to include
     | the secure defaults, then add custom items as needed.
     |
@@ -86,12 +86,12 @@ return [
     |
     */
     'policy' => [
-        
+
         // Allowed Twig tags
         // Default excludes: include, extends, block, macro, import, embed, use
         // (These could allow template inclusion attacks if enabled)
         'tags' => [
-            \YSaxon\PyroSstiHotfix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
+            \YSaxon\PyroCmsSstiFix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
             // Add custom tags here if needed:
             // 'custom_tag',
         ],
@@ -99,14 +99,14 @@ return [
         // Allowed Twig filters
         // Default excludes: map, filter, reduce (RCE vectors)
         'filters' => [
-            \YSaxon\PyroSstiHotfix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
+            \YSaxon\PyroCmsSstiFix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
             // Add custom filters here if needed:
             // 'custom_filter',
         ],
 
         // Allowed Twig functions
         'functions' => [
-            \YSaxon\PyroSstiHotfix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
+            \YSaxon\PyroCmsSstiFix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
             // Add custom functions here if needed:
             // 'custom_function',
         ],
@@ -115,14 +115,14 @@ return [
         // Supports wildcards: 'get*' matches getMethods, getProperty, etc.
         // Supports '*' for class to match any class
         'methods' => [
-            \YSaxon\PyroSstiHotfix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
+            \YSaxon\PyroCmsSstiFix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
             // Add custom methods here if needed:
             // 'App\Models\Post' => ['getTitle', 'getContent'],
         ],
 
         // Allowed object properties (format: 'ClassName' => ['prop1', 'prop2'])
         'properties' => [
-            \YSaxon\PyroSstiHotfix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
+            \YSaxon\PyroCmsSstiFix\SecurityPolicyDefaults::INCLUDE_DEFAULTS,
             // Add custom properties here if needed:
             // 'App\Models\Post' => ['title', 'content'],
         ],
@@ -137,6 +137,6 @@ return [
     | Disable in production.
     |
     */
-    'debug' => env('PYRO_SSTI_HOTFIX_DEBUG', false),
+    'debug' => env('PYROCMS_SSTI_FIX_DEBUG', false),
 
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace YSaxon\PyroSstiHotfix;
+namespace YSaxon\PyroCmsSstiFix;
 
 use Illuminate\Support\ServiceProvider;
 use Twig\Environment;
@@ -15,14 +15,14 @@ use Twig\Extension\SandboxExtension;
  *
  * @author Yaakov Saxon
  */
-class HotfixServiceProvider extends ServiceProvider
+class FixServiceProvider extends ServiceProvider
 {
     /**
      * Register bindings in the container.
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/pyro-ssti-hotfix.php', 'pyro-ssti-hotfix');
+        $this->mergeConfigFrom(__DIR__ . '/../config/pyrocms-ssti-fix.php', 'pyrocms-ssti-fix');
     }
 
     /**
@@ -30,17 +30,17 @@ class HotfixServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-         if (config('pyro-ssti-hotfix.debug', false)) {
-            \Log::info('[PyroSstiHotfix] Boot called');
+         if (config('pyrocms-ssti-fix.debug', false)) {
+            \Log::info('[PyroCmsSstiFix] Boot called');
         }
 
         // Publish config for customization
         $this->publishes([
-            __DIR__ . '/../config/pyro-ssti-hotfix.php' => config_path('pyro-ssti-hotfix.php'),
-        ], 'pyro-ssti-hotfix-config');
+            __DIR__ . '/../config/pyrocms-ssti-fix.php' => config_path('pyrocms-ssti-fix.php'),
+        ], 'pyrocms-ssti-fix-config');
 
         // Only apply if enabled
-        if (!config('pyro-ssti-hotfix.enabled', true)) {
+        if (!config('pyrocms-ssti-fix.enabled', true)) {
             return;
         }
 
@@ -58,15 +58,15 @@ class HotfixServiceProvider extends ServiceProvider
         // Check if Twig is bound in the container
         if (!$this->app->bound('twig')) {
             // Twig not registered - maybe not a PyroCMS install or streams-platform not loaded
-            \Log::warning('[PyroSstiHotfix] Twig not found in container. Sandbox not applied.');
+            \Log::warning('[PyroCmsSstiFix] Twig not found in container. Sandbox not applied.');
             return;
         }
 
         $this->app->extend('twig', function (Environment $twig, $app) {
             // Don't double-register
             if ($twig->hasExtension(SandboxExtension::class)) {
-                if (config('pyro-ssti-hotfix.debug', false)) {
-                    \Log::info('[PyroSstiHotfix] SandboxExtension already registered. Skipping.');
+                if (config('pyrocms-ssti-fix.debug', false)) {
+                    \Log::info('[PyroCmsSstiFix] SandboxExtension already registered. Skipping.');
                 }
                 return $twig;
             }
@@ -78,7 +78,7 @@ class HotfixServiceProvider extends ServiceProvider
             $sourcePolicy = $this->buildSourcePolicy($app);
 
             // Determine global sandbox mode
-            $mode = config('pyro-ssti-hotfix.mode', 'auto');
+            $mode = config('pyrocms-ssti-fix.mode', 'auto');
             $globalSandbox = ($mode === 'global');
 
             // Create and register the extension
@@ -90,8 +90,8 @@ class HotfixServiceProvider extends ServiceProvider
 
             $twig->addExtension($sandbox);
 
-            if (config('pyro-ssti-hotfix.debug', false)) {
-                \Log::info('[PyroSstiHotfix] Sandbox applied successfully.', [
+            if (config('pyrocms-ssti-fix.debug', false)) {
+                \Log::info('[PyroCmsSstiFix] Sandbox applied successfully.', [
                     'mode' => $mode,
                     'global' => $globalSandbox,
                 ]);
@@ -106,7 +106,7 @@ class HotfixServiceProvider extends ServiceProvider
      */
     protected function buildSecurityPolicy(): SecurityPolicy
     {
-        $config = config('pyro-ssti-hotfix.policy', []);
+        $config = config('pyrocms-ssti-fix.policy', []);
 
         return new SecurityPolicy(
             $config['tags'] ?? [SecurityPolicyDefaults::INCLUDE_DEFAULTS],
@@ -122,7 +122,7 @@ class HotfixServiceProvider extends ServiceProvider
      */
     protected function buildSourcePolicy($app): \Twig\Sandbox\SourcePolicyInterface
     {
-        $policyClass = config('pyro-ssti-hotfix.source_policy', StorageSourcePolicy::class);
+        $policyClass = config('pyrocms-ssti-fix.source_policy', StorageSourcePolicy::class);
 
         // If it's our default policy, we need to resolve the storage path
         if ($policyClass === StorageSourcePolicy::class) {
@@ -139,7 +139,7 @@ class HotfixServiceProvider extends ServiceProvider
     protected function resolveStoragePath($app): string
     {
         // Try to get from config first
-        $configPath = config('pyro-ssti-hotfix.storage_path');
+        $configPath = config('pyrocms-ssti-fix.storage_path');
         if ($configPath) {
             return $configPath;
         }

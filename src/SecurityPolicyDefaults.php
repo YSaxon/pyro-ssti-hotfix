@@ -1,6 +1,6 @@
 <?php
 
-namespace YSaxon\PyroSstiHotfix;
+namespace YSaxon\PyroCmsSstiFix;
 
 /**
  * Default whitelists for the Twig security policy.

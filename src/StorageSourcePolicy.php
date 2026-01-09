@@ -1,6 +1,6 @@
 <?php
 
-namespace YSaxon\PyroSstiHotfix;
+namespace YSaxon\PyroCmsSstiFix;
 
 use Twig\Sandbox\SourcePolicyInterface;
 use Twig\Source;
