@@ -27,7 +27,7 @@ Unfortunately, due to PyroCMS [disabling autodiscovery](https://github.com/pyroc
 
 You can do that with
 ```bash
-sed -i "/App\\\Providers\\\AppServiceProvider::class,/a \        YSaxon\\\PyroCmsSstiFix\\\FixServiceProvider::class," config/app.php
+sed -i "/App\\\Providers\\\AppServiceProvider::class,/a \        YSaxon\\\PyroCmsSstiFix\\\SandboxServiceProvider::class," config/app.php
 ```
 
 ## Requirements

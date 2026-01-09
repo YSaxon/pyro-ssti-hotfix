@@ -22,7 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "YSaxon\\PyroCmsSstiFix\\FixServiceProvider"
+                "YSaxon\\PyroCmsSstiFix\\SandboxServiceProvider"
             ]
         }
     },

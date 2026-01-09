@@ -15,7 +15,7 @@ use Twig\Extension\SandboxExtension;
  *
  * @author Yaakov Saxon
  */
-class FixServiceProvider extends ServiceProvider
+class SandboxServiceProvider extends ServiceProvider
 {
     /**
      * Register bindings in the container.
